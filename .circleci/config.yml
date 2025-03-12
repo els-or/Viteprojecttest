@@ -1,13 +1,22 @@
 version: 2.1
 
 jobs:
-  helll-world-job:
+  start-server:
     docker:
-      - image: cimg/base:current
     steps:
-      - runs: echo "Hello, World!"
+      -checkout
+      - runs: 
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build the app
+          command: npm run build
+
 
 workflows:
-  hello-world-workflow:
+  run-tests:
     jobs:
-      - hello-world-job
+      - start-server
+      -cypress/run
+         name: run-componet-tests
+         cypress-command: npx cypress run --component
